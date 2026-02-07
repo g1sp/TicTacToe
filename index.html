@@ -488,7 +488,16 @@
                 const [a, b, c] = combo;
                 if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
                     const winner = gameBoard[a];
-                    statusDisplay.textContent = `🎉 Player ${winner} Wins!`;
+
+                    if (gameMode === 'ai') {
+                        if (winner === 'X') {
+                            statusDisplay.textContent = `🎉 You Win!`;
+                        } else {
+                            statusDisplay.textContent = `🤖 AI Wins!`;
+                        }
+                    } else {
+                        statusDisplay.textContent = `🎉 Player ${winner} Wins!`;
+                    }
                     gameActive = false;
 
                     if (winner === 'X') {
@@ -511,14 +520,28 @@
             }
 
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            statusDisplay.textContent = `Player ${currentPlayer}'s Turn`;
+            if (gameMode === 'ai') {
+                if (currentPlayer === 'X') {
+                    statusDisplay.textContent = `Your Turn (X)`;
+                } else {
+                    statusDisplay.textContent = `AI is thinking...`;
+                }
+            } else {
+                statusDisplay.textContent = `Player ${currentPlayer}'s Turn`;
+            }
         }
 
         function newGame() {
             gameBoard = ['', '', '', '', '', '', '', '', ''];
             currentPlayer = 'X';
             gameActive = true;
-            statusDisplay.textContent = `Player ${currentPlayer}'s Turn`;
+            aiThinking = false;
+
+            if (gameMode === 'ai') {
+                statusDisplay.textContent = `Your Turn (X)`;
+            } else {
+                statusDisplay.textContent = `Player ${currentPlayer}'s Turn`;
+            }
 
             cells.forEach(cell => {
                 cell.textContent = '';
