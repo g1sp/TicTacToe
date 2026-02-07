@@ -489,12 +489,14 @@
         }
 
         function makeMove(index) {
+            console.log('makeMove called with index:', index, 'currentPlayer before:', currentPlayer);
             gameBoard[index] = currentPlayer;
             const cell = cells[index];
             cell.textContent = currentPlayer;
             cell.classList.add(currentPlayer.toLowerCase());
             cell.disabled = true;
             currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            console.log('currentPlayer after switch:', currentPlayer);
         }
 
         function checkWinner() {
