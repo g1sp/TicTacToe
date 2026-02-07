@@ -467,10 +467,12 @@
                 aiThinking = true;
                 setTimeout(() => {
                     const aiMove = getAIMove();
-                    makeMove(aiMove);
-                    checkWinner();
+                    if (aiMove !== null && aiMove !== undefined && gameBoard[aiMove] === '') {
+                        makeMove(aiMove);
+                        checkWinner();
+                    }
                     aiThinking = false;
-                }, 500);
+                }, 600);
             }
         }
 
@@ -555,14 +557,20 @@
                 .map((cell, index) => cell === '' ? index : null)
                 .filter(index => index !== null);
 
+            if (availableMoves.length === 0) {
+                return null;
+            }
+
             if (aiDifficulty === 'easy') {
-                return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                return randomMove;
             } else if (aiDifficulty === 'medium') {
                 // 60% smart, 40% random
                 if (Math.random() < 0.6) {
                     return getBestMove();
                 } else {
-                    return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                    const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                    return randomMove;
                 }
             } else { // hard
                 return getBestMove();
