@@ -432,6 +432,8 @@
         let aiDifficulty = 'easy'; // 'easy', 'medium', 'hard'
         let aiThinking = false;
 
+        console.log('Game initialized. GameMode:', gameMode);
+
         let scoreX = localStorage.getItem('tictactoe_scoreX') ? parseInt(localStorage.getItem('tictactoe_scoreX')) : 0;
         let scoreO = localStorage.getItem('tictactoe_scoreO') ? parseInt(localStorage.getItem('tictactoe_scoreO')) : 0;
 
@@ -468,22 +470,21 @@
             checkWinner();
 
             // AI move if in AI mode and game is still active
+            console.log('After player move - GameMode:', gameMode, 'GameActive:', gameActive, 'CurrentPlayer:', currentPlayer);
+
             if (gameMode === 'ai' && gameActive && currentPlayer === 'O') {
+                console.log('TRIGGERING AI MOVE');
                 aiThinking = true;
-                console.log('AI turn triggered. GameMode:', gameMode, 'GameActive:', gameActive, 'CurrentPlayer:', currentPlayer);
                 setTimeout(() => {
-                    console.log('AI thinking... Getting move');
+                    console.log('AI thinking...');
                     const aiMove = getAIMove();
-                    console.log('AI move selected:', aiMove, 'Board:', gameBoard);
-                    if (aiMove !== null && aiMove !== undefined && gameBoard[aiMove] === '') {
-                        console.log('Making AI move at index:', aiMove);
+                    console.log('AI selected move:', aiMove);
+                    if (aiMove !== null && aiMove !== undefined) {
                         makeMove(aiMove);
                         checkWinner();
-                    } else {
-                        console.log('Invalid AI move:', aiMove);
                     }
                     aiThinking = false;
-                }, 600);
+                }, 800);
             }
         }
 
