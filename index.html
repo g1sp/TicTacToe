@@ -363,15 +363,15 @@
             <div class="mode-selector">
                 <div class="mode-title">Game Mode</div>
                 <div class="mode-buttons">
-                    <button class="mode-btn active" onclick="setGameMode('2player')">2 Player</button>
-                    <button class="mode-btn" onclick="setGameMode('ai')">Play vs AI</button>
+                    <button class="mode-btn active" onclick="setGameMode(this, '2player')">2 Player</button>
+                    <button class="mode-btn" onclick="setGameMode(this, 'ai')">Play vs AI</button>
                 </div>
                 <div class="difficulty-selector" id="difficultySelector">
                     <div class="difficulty-title">AI Difficulty</div>
                     <div class="difficulty-buttons">
-                        <button class="difficulty-btn active" onclick="setDifficulty('easy')">Easy</button>
-                        <button class="difficulty-btn" onclick="setDifficulty('medium')">Medium</button>
-                        <button class="difficulty-btn" onclick="setDifficulty('hard')">Hard</button>
+                        <button class="difficulty-btn active" onclick="setDifficulty(this, 'easy')">Easy</button>
+                        <button class="difficulty-btn" onclick="setDifficulty(this, 'medium')">Medium</button>
+                        <button class="difficulty-btn" onclick="setDifficulty(this, 'hard')">Hard</button>
                     </div>
                 </div>
             </div>
@@ -465,11 +465,17 @@
             // AI move if in AI mode and game is still active
             if (gameMode === 'ai' && gameActive && currentPlayer === 'O') {
                 aiThinking = true;
+                console.log('AI turn triggered. GameMode:', gameMode, 'GameActive:', gameActive, 'CurrentPlayer:', currentPlayer);
                 setTimeout(() => {
+                    console.log('AI thinking... Getting move');
                     const aiMove = getAIMove();
+                    console.log('AI move selected:', aiMove, 'Board:', gameBoard);
                     if (aiMove !== null && aiMove !== undefined && gameBoard[aiMove] === '') {
+                        console.log('Making AI move at index:', aiMove);
                         makeMove(aiMove);
                         checkWinner();
+                    } else {
+                        console.log('Invalid AI move:', aiMove);
                     }
                     aiThinking = false;
                 }, 600);
@@ -639,18 +645,20 @@
             return board.every(cell => cell !== '');
         }
 
-        function setGameMode(mode) {
+        function setGameMode(btnElement, mode) {
             gameMode = mode;
+            console.log('Game mode set to:', mode);
             document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            btnElement.classList.add('active');
             difficultySelector.classList.toggle('show', mode === 'ai');
             newGame();
         }
 
-        function setDifficulty(difficulty) {
+        function setDifficulty(btnElement, difficulty) {
             aiDifficulty = difficulty;
+            console.log('AI difficulty set to:', difficulty);
             document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            btnElement.classList.add('active');
             newGame();
         }
 
