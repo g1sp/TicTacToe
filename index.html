@@ -450,15 +450,20 @@
             const cell = e.target;
             const index = cell.getAttribute('data-index');
 
+            console.log('Cell clicked. Index:', index, 'GameMode:', gameMode, 'CurrentPlayer:', currentPlayer, 'GameActive:', gameActive);
+
             if (gameBoard[index] !== '' || !gameActive || aiThinking) {
+                console.log('Early return: cell occupied or game not active');
                 return;
             }
 
             // In AI mode, only allow player X to click
             if (gameMode === 'ai' && currentPlayer !== 'X') {
+                console.log('Early return: AI mode but not X turn');
                 return;
             }
 
+            console.log('Making player move');
             makeMove(index);
             checkWinner();
 
